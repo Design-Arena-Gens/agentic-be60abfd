@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --background: #020409;
+  --foreground: #f2f8ff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-orbitron);
+  --font-mono: var(--font-tech);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-tech, "Share Tech Mono", monospace);
+  text-rendering: optimizeLegibility;
+}
+
+.font-orbitron {
+  font-family: var(--font-orbitron), "Orbitron", "Share Tech Mono", monospace;
+}
+
+.font-tech {
+  font-family: var(--font-tech), "Share Tech Mono", monospace;
+}
+
+.glitch-wrapper {
+  position: relative;
+}
+
+.glitch-svg {
+  height: 100%;
+  width: 100%;
+}
+
+.animate-slow-spin {
+  animation: slow-spin 60s linear infinite;
+}
+
+.glitch-layer {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  animation: glitch-shift 3.8s steps(2, end) infinite;
+}
+
+.glitch-layer-1 {
+  animation-delay: -0.45s;
+}
+
+.glitch-layer-2 {
+  animation-delay: -1.35s;
+}
+
+.scanlines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.03) 0px,
+    rgba(255, 255, 255, 0.03) 1px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0) 4px
+  );
+  mix-blend-mode: overlay;
+  animation: scanline-shift 12s linear infinite;
+}
+
+.noise {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  background-size: 180px;
+  animation: noise-flicker 1.2s steps(4, end) infinite;
+  mix-blend-mode: soft-light;
+}
+
+.info-card {
+  position: relative;
+  border: 1px solid rgba(80, 130, 190, 0.25);
+  background: rgba(4, 10, 22, 0.65);
+  padding: 1.25rem;
+  border-radius: 1rem;
+  backdrop-filter: blur(12px);
+  transition: border-color 0.35s ease, transform 0.35s ease;
+}
+
+.info-card::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 1px solid transparent;
+  background: linear-gradient(
+      120deg,
+      rgba(90, 204, 255, 0.35),
+      rgba(255, 102, 212, 0.25)
+    )
+    border-box;
+  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(120, 200, 255, 0.55);
+}
+
+.info-card:hover::after {
+  opacity: 1;
+}
+
+.info-title {
+  font-family: var(--font-orbitron), "Orbitron", monospace;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: rgba(146, 226, 255, 0.9);
+  margin-bottom: 0.75rem;
+}
+
+.info-body {
+  font-family: var(--font-tech), "Share Tech Mono", monospace;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: rgba(180, 204, 230, 0.82);
+}
+
+@keyframes slow-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes glitch-shift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.65;
+  }
+  5% {
+    transform: translate3d(-3px, 2px, 0);
+  }
+  12% {
+    transform: translate3d(4px, -3px, 0);
+  }
+  20% {
+    transform: translate3d(-1px, 1px, 0);
+  }
+  38% {
+    transform: translate3d(3px, -2px, 0);
+  }
+  55% {
+    transform: translate3d(-2px, 3px, 0);
+  }
+  78% {
+    transform: translate3d(2px, -1px, 0);
+  }
+}
+
+@keyframes scanline-shift {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(4px);
+  }
+}
+
+@keyframes noise-flicker {
+  0%,
+  100% {
+    opacity: 0.18;
+  }
+  50% {
+    opacity: 0.28;
+  }
+}
